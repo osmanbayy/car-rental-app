@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { assets, cities } from "../assets/data";
 
 const Hero = () => {
@@ -7,7 +8,13 @@ const Hero = () => {
       {/* Container */}
       <div className="max-padd-container relative flex justify-end mx-auto flex-col gap-9 py-6 pt-32 z-10">
         {/* Content */}
-        <div className="flex-center flex-col gap-y-6">
+        <motion.div
+          className="flex-center flex-col gap-y-6"
+          initial={{ opacity: 0, y: -30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
           <div className="text-center max-w-5xl">
             <h1 className="capitalize leading-tight">
               Explore{" "}
@@ -68,14 +75,20 @@ const Hero = () => {
               <span>Search</span>
             </button>
           </form>
-        </div>
-        <div className="flex-center">
+        </motion.div>
+        <motion.div
+          className="flex-center"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+        >
           <img
             src={assets.bg}
             alt="hero-image"
             className="w-full max-w-[77%]"
           />
-        </div>
+        </motion.div>
       </div>
     </section>
   );
