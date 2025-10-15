@@ -12,7 +12,7 @@ const Banner = () => {
         <div className="flex flex-col md:flex-row">
           {/* Left Side */}
           <motion.div
-            className="flex-[5] relative lg:bottom-12 xl:bottom-20"
+            className="flex-[5] relative lg:bottom-12 xl:bottom-20 select-none pointer-events-none"
             initial={{ opacity: 0, y: -74 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.4 }}
