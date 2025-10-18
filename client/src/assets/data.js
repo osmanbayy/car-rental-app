@@ -556,3 +556,21 @@ export const dummyDashboardData = {
     "totalRevenue": 897,
     "bookings": dummyBookingsData
 }
+
+export const navItems = [
+  {
+    path: "/owner",
+    label: "Dashboard",
+    icon: dashboard
+  },
+  {
+    path: "/owner/add-car",
+    label: "Add Car",
+    icon: carPlus
+  },
+  {
+    path: "/owner/list-car",
+    label: "List Car",
+    icon: list
+  }
+]
