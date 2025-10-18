@@ -41,6 +41,7 @@ const Dashboard = () => {
       <div className="mt-4">
         <div className="flex justify-between flex-wrap gap-2 sm:grid grid-cols-[2fr_2fr_1fr_1fr] lg:grid-cols-[0.5fr_2fr_2fr_1fr_1fr] px-6 py-3 bg-solid text-white border-b-1 border-slate-900/10 rounded-t-xl">
           <h5 className="hidden lg:block">Index</h5>
+          <h5>Car</h5>
           <h5>Booking Dates</h5>
           <h5>Amount</h5>
           <h5>Status</h5>
