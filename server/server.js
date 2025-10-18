@@ -5,6 +5,7 @@ import connectToDatabase from "./config/mongodb.js";
 import { clerkMiddleware } from "@clerk/express"
 import clerkWebhooks from "./controllers/clerkWebhooks.js";
 import userRouter from "./routes/userRoutes.js";
+import agencyRouter from "./routes/agencyRoutes.js";
 
 await connectToDatabase();  // Establish Connection to the Database
 
@@ -20,6 +21,7 @@ app.use("/api/clerk", clerkWebhooks)
 
 // Define API routes
 app.use("/api/user", userRouter);
+app.use("/api/agencies", agencyRouter);
 
 // Route Endpoint to check API Status
 app.get("/", (request, response) => response.send("API Successfully Connected!"));
