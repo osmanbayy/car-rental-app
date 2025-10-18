@@ -16,3 +16,12 @@ export const priceRange = [
     "30000 to 50000",
     "5000 to 99000",
 ];
+
+export const fuelTypes = [
+    "Petrol",
+    "Diesel",
+    "Electric",
+    "Hybrid"
+];
+
+export const transmission = ["Automatic", "Manual", "CVT", "Dual-Clutch"]

@@ -65,6 +65,10 @@ body {
   .btn-white {
     @apply px-6 py-2 active:scale-95 transition bg-white border border-gray-500/20 rounded-full text-text text-sm font-medium cursor-pointer
   }
+
+  .number-input {
+    @apply appearance-none [-moz-appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none
+  }
 }
 
 @layer utilities {
