@@ -13,13 +13,17 @@ import Dashboard from "./pages/owner/Dashboard";
 import AddCar from "./pages/owner/AddCar";
 import ListCar from "./pages/owner/ListCar";
 import { Toaster } from "react-hot-toast";
+import { useAppContext } from "./context/AppContext";
+import AgencyRegister from "./components/AgencyRegister";
 
 const App = () => {
+  const { showAgencyRegister } = useAppContext();
   const location = useLocation();
   const isOwnerPath = location.pathname.includes("owner");
   return (
     <main>
       {!isOwnerPath && <Header />}
+      {showAgencyRegister && <AgencyRegister />}
       <Toaster position="bottom-center" />
       <Routes>
         <Route path="/" element={<Home />} />

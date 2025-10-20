@@ -69,6 +69,7 @@ export const AppContextProvider = ({ children }) => {
     toast,
     axios,
     getUser,
+    getToken
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
