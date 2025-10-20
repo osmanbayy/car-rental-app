@@ -4,18 +4,18 @@ import Item from "../components/Item";
 import { useSearchParams } from "react-router-dom";
 import { sortOptions, bodyType, priceRange } from "../lib/carFilterOptions";
 import { dummyCars } from "../assets/data";
+import { useAppContext } from "../context/AppContext";
 
 const Listing = () => {
+  const { cars, searchQuery, currency } = useAppContext();
   const [selectedFilters, setSelectedFilters] = useState({
     bodyType: [],
     priceRange: [],
   });
   const [selectedSort, setSelectedSort] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
   const itemsPerPage = 6;
-  const currency = "$";
 
   const [searchParams] = useSearchParams();
   const heroDestination = (searchParams.get("destination") || "")
@@ -173,39 +173,41 @@ const Listing = () => {
               )}
             </div>
             {/* Pagination */}
-            <div className="flex-center mt-10 mb-6 gap-3">
-              <button
-                disabled={currentPage === 1}
-                onClick={() => setCurrentPage((prev) => prev - 1)}
-                className={`btn-solid !py-1 !px-3 ${
-                  currentPage === 1 &&
-                  "opacity-50 !cursor-not-allowed pointer-events-none"
-                }`}
-              >
-                Previous
-              </button>
-              {Array.from({ length: totalPages }, (_, index) => (
+            {getPaginatedCars().length > 0 && (
+              <div className="flex-center mt-10 mb-6 gap-3">
                 <button
-                  key={index}
-                  onClick={() => setCurrentPage(index + 1)}
-                  className={`btn-outline size-8 p-0 flex-center ${
-                    currentPage === index + 1 && "btn-light"
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage((prev) => prev - 1)}
+                  className={`btn-solid !py-1 !px-3 ${
+                    currentPage === 1 &&
+                    "opacity-50 !cursor-not-allowed pointer-events-none"
                   }`}
                 >
-                  {index + 1}
+                  Previous
                 </button>
-              ))}
-              <button
-                disabled={currentPage === totalPages}
-                onClick={() => setCurrentPage((prev) => prev + 1)}
-                className={`btn-solid !py-1 !px-3 ${
-                  currentPage === totalPages &&
-                  "opacity-50 !cursor-not-allowed pointer-events-none"
-                }`}
-              >
-                Next
-              </button>
-            </div>
+                {Array.from({ length: totalPages }, (_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentPage(index + 1)}
+                    className={`btn-outline size-8 p-0 flex-center ${
+                      currentPage === index + 1 && "btn-light"
+                    }`}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+                <button
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage((prev) => prev + 1)}
+                  className={`btn-solid !py-1 !px-3 ${
+                    currentPage === totalPages &&
+                    "opacity-50 !cursor-not-allowed pointer-events-none"
+                  }`}
+                >
+                  Next
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

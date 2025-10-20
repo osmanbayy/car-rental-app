@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { assets } from "../assets/data";
 import Navbar from "./Navbar";
-import { useUser, useClerk, UserButton } from "@clerk/clerk-react";
+import { useClerk, UserButton } from "@clerk/clerk-react";
+import { useAppContext } from "../context/AppContext";
 
 const BookingIcon = () => (
   <svg
@@ -25,20 +26,35 @@ const BookingIcon = () => (
 );
 
 const Header = () => {
+  const {
+    navigate,
+    user,
+    isOwner,
+    setShowAgencyRegister,
+    searchQuery,
+    setSearchQuery,
+  } = useAppContext();
+
   const [menuOpened, setMenuOpened] = useState(false);
   const [active, setActive] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
 
   const location = useLocation();
 
-  const navigate = useNavigate();
-
-  const { user } = useUser();
   const { openSignIn } = useClerk();
 
   const isHomePage = location.pathname.endsWith("/");
 
   const toggleMenu = () => setMenuOpened((prev) => !prev);
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+
+    // Redirect to listing page if not already there
+    if (e.target.value && location.pathname !== "/listing") {
+      navigate("/listing");
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -83,6 +99,16 @@ const Header = () => {
           />
           {/* Buttons, SearchBar & Profile */}
           <div className="flex sm:flex-1 items-center sm:justify-end gap-x-3 sm:gap-x-4">
+            {user && (
+              <button
+                onClick={() =>
+                  isOwner ? navigate("/owner") : setShowAgencyRegister(true)
+                }
+                className="text-xs btn-outline px-2.5 py-1.5 font-semibold ring-1 ring-slate-900/10 rounded-full hover:ring-slate-900/30 hover:shadow-lg transition-all duration-300 bg-white border-none"
+              >
+                {isOwner ? "Dashboard" : "Register as Agency"}
+              </button>
+            )}
             {/* SearchBar */}
             <div className="relative hidden xl:flex items-center">
               {/* Input */}
@@ -94,6 +120,8 @@ const Header = () => {
                 }`}
               >
                 <input
+                  onChange={handleSearchChange}
+                  value={searchQuery}
                   type="text"
                   className="w-full text-sm outline-none pr-10 placeholder:text-gray-400"
                   placeholder="Search Here..."
@@ -128,15 +156,17 @@ const Header = () => {
             {/* User Profile */}
             <div className="group">
               {user ? (
-                <UserButton appearance={{
-                  elements: {
-                    userButtonAvatarBox: {
-                      width: "40px",
-                      height: "40px",
-                      marginTop: "5px"
-                    }
-                  }
-                }}>
+                <UserButton
+                  appearance={{
+                    elements: {
+                      userButtonAvatarBox: {
+                        width: "40px",
+                        height: "40px",
+                        marginTop: "5px",
+                      },
+                    },
+                  }}
+                >
                   <UserButton.MenuItems>
                     <UserButton.Action
                       label="My Bookings"

@@ -16,7 +16,7 @@ export const AppContextProvider = ({ children }) => {
 
   const [cars, setCars] = useState([]);
   const [searchedCities, setSearchedCities] = useState([]);
-  const [showAgency, setShowAgency] = useState(false);
+  const [showAgencyRegister, setShowAgencyRegister] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -57,8 +57,8 @@ export const AppContextProvider = ({ children }) => {
     setCars,
     searchedCities,
     setSearchedCities,
-    showAgency,
-    setShowAgency,
+    showAgencyRegister,
+    setShowAgencyRegister,
     isOwner,
     setIsOwner,
     searchQuery,
