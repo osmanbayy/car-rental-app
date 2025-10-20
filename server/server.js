@@ -8,6 +8,7 @@ import userRouter from "./routes/userRoutes.js";
 import agencyRouter from "./routes/agencyRoutes.js";
 import connectToCloudinary from "./config/cloudinary.js";
 import carRouter from "./routes/carRoutes.js";
+import bookingRouter from "./routes/bookingRoutes.js";
 
 await connectToDatabase();  // Establish Connection to the Database
 await connectToCloudinary(); // Setup Cloudinary for image storage
@@ -26,6 +27,7 @@ app.use("/api/clerk", clerkWebhooks)
 app.use("/api/user", userRouter);
 app.use("/api/agencies", agencyRouter);
 app.use("/api/cars", carRouter);
+app.use("/api/bookings", bookingRouter);
 
 // Route Endpoint to check API Status
 app.get("/", (request, response) => response.send("API Successfully Connected!"));

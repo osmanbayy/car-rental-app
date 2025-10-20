@@ -1,4 +1,4 @@
-import { V2 as cloudinary } from 'cloudinary';
+import { v2 as cloudinary } from 'cloudinary';
 import Car from '../models/Car.js';
 import Agency from '../models/Agency.js';
 
