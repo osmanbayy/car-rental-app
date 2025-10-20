@@ -6,8 +6,11 @@ import { clerkMiddleware } from "@clerk/express"
 import clerkWebhooks from "./controllers/clerkWebhooks.js";
 import userRouter from "./routes/userRoutes.js";
 import agencyRouter from "./routes/agencyRoutes.js";
+import connectToCloudinary from "./config/cloudinary.js";
+import carRouter from "./routes/carRoutes.js";
 
 await connectToDatabase();  // Establish Connection to the Database
+await connectToCloudinary(); // Setup Cloudinary for image storage
 
 const app = express();      // Initialize Express
 app.use(cors())             // Enables Cross-Origin Resource sharing
@@ -22,6 +25,7 @@ app.use("/api/clerk", clerkWebhooks)
 // Define API routes
 app.use("/api/user", userRouter);
 app.use("/api/agencies", agencyRouter);
+app.use("/api/cars", carRouter);
 
 // Route Endpoint to check API Status
 app.get("/", (request, response) => response.send("API Successfully Connected!"));
