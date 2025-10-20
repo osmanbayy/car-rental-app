@@ -12,6 +12,7 @@ import Sidebar from "./components/owner/Sidebar";
 import Dashboard from "./pages/owner/Dashboard";
 import AddCar from "./pages/owner/AddCar";
 import ListCar from "./pages/owner/ListCar";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   const location = useLocation();
@@ -19,6 +20,7 @@ const App = () => {
   return (
     <main>
       {!isOwnerPath && <Header />}
+      <Toaster position="bottom-center" />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/listing" element={<Listing />} />
