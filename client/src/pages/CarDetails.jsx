@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import CarImages from "../components/CarImages";
 import { assets } from "../assets/data";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
+import toast from "react-hot-toast";
 
 const CarDetails = () => {
   const [car, setCar] = useState(null);
@@ -20,8 +21,8 @@ const CarDetails = () => {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: { staggerChildren: 0.08, when: "beforeChildren" }
-    }
+      transition: { staggerChildren: 0.08, when: "beforeChildren" },
+    },
   };
 
   const fadeUpVariants = {
@@ -29,8 +30,8 @@ const CarDetails = () => {
     show: {
       opacity: 1,
       y: 0,
-      transition: { type: "spring", stiffness: 60, damping: 12, mass: 0.6 }
-    }
+      transition: { type: "spring", stiffness: 60, damping: 12, mass: 0.6 },
+    },
   };
 
   const slideLeftVariants = {
@@ -38,8 +39,8 @@ const CarDetails = () => {
     show: {
       opacity: 1,
       x: 0,
-      transition: { type: "spring", stiffness: 70, damping: 14 }
-    }
+      transition: { type: "spring", stiffness: 70, damping: 14 },
+    },
   };
 
   const slideRightVariants = {
@@ -47,7 +48,61 @@ const CarDetails = () => {
     show: {
       opacity: 1,
       x: 0,
-      transition: { type: "spring", stiffness: 70, damping: 14 }
+      transition: { type: "spring", stiffness: 70, damping: 14 },
+    },
+  };
+
+  // Check Availability
+  const checkAvailability = async () => {
+    try {
+      // Check is pickUpDate is greater than dropOffDate
+      if (pickUpDate > dropOffDate) {
+        toast.error("Pick Up Date should be less than Drop Off date!");
+      }
+
+      const { data } = await axios.post("/api/bookings/check-availability", {
+        car: id,
+        pickUpDate,
+        dropOffDate,
+      });
+      if (data.success) {
+        if (data.isAvailable) {
+          setIsAvailable(true);
+          toast.success("Car is available");
+        } else {
+          setIsAvailable(false);
+          toast.error("Car is not available.");
+        }
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
+  // Book car if is available
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+    try {
+      if (!isAvailable) {
+        return checkAvailability();
+      } else {
+        const { data } = await axios.post(
+          "/api/bookings/book",
+          { car: id, pickUpDate, dropOffDate },
+          { headers: { Authorization: `Bearer ${await getToken()}` } }
+        );
+        if (data.success) {
+          toast.success(data.message);
+          navigate("/my-bookings");
+          scrollTo(0, 0);
+        } else {
+          toast.error(data.message);
+        }
+      }
+    } catch (error) {
+      toast.error(error.message);
     }
   };
 
@@ -137,7 +192,7 @@ const CarDetails = () => {
               </div>
               {/* FORM | CHECK AVAILABILITY */}
               <form
-                onSubmit={""}
+                onSubmit={onSubmitHandler}
                 className="text-gray-500 bg-primary rounded-lg px-6 py-4 flex flex-col lg:flex-row gap-4 max-w-md lg:max-w-full ring-1 ring-slate-900/10 relative mt-5"
               >
                 <div className="flex flex-col w-full">
@@ -167,7 +222,10 @@ const CarDetails = () => {
                     className="rounded bg-white border border-gray-200 px-3 py-1.5 mt-1.5 text-sm outline-none"
                   />
                 </div>
-                <button className="flex-center gap-1 rounded-md btn-solid min-w-44 hover:bg-blue-500 transition-all duration-300">
+                <button
+                  type="submit"
+                  className="flex-center gap-1 rounded-md btn-solid min-w-44 hover:bg-blue-500 transition-all duration-300"
+                >
                   <img
                     src={assets.search}
                     alt="search-icon"
