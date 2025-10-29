@@ -90,11 +90,11 @@ const MyBookings = () => {
             >
               {/* Car List */}
               <div className="flex-start gap-3 mb-3">
-                <div className="bg-primary rounded-xl overflow-hidden flex-center h-19">
+                <div className="bg-primary rounded-xl overflow-hidden flex-center h-25">
                   <img
                     src={booking.car.images[0]}
                     alt="car main image"
-                    className="max-w-full max-h-full object-contain"
+                    className="max-w-full max-h-full object-contain w-64"
                   />
                 </div>
                 <div className="">

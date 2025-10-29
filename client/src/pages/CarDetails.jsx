@@ -58,6 +58,7 @@ const CarDetails = () => {
       // Check is pickUpDate is greater than dropOffDate
       if (pickUpDate > dropOffDate) {
         toast.error("Pick Up Date should be less than Drop Off date!");
+        return;
       }
 
       const { data } = await axios.post("/api/bookings/check-availability", {
