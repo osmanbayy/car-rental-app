@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { assets } from "../assets/data";
@@ -35,7 +36,7 @@ const Item = ({ car }) => {
       </div>
       {/* Image */}
       <div className="relative py-6">
-        <img src={car.images[0]} alt={car.title} />
+        <img src={car.images[0]} alt={car.title} className="w-full h-32 object-contain" />
       </div>
       {/* Info */}
       <div className="">

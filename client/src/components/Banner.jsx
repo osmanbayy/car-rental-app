@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 const Banner = () => {
   const navigate = useNavigate();
   return (
-    <section className="max-padd-container py-16">
+    <section className="max-padd-container py-16 pt-10">
       <div className="bg-[#889ef6] max-padd-container rounded-3xl xl:max-h-72">
         {/* Container */}
         <div className="flex flex-col md:flex-row">
