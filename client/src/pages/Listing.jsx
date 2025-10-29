@@ -3,7 +3,6 @@ import React, { useMemo, useState } from "react";
 import Item from "../components/Item";
 import { useSearchParams } from "react-router-dom";
 import { sortOptions, bodyType, priceRange } from "../lib/carFilterOptions";
-import { dummyCars } from "../assets/data";
 import { useAppContext } from "../context/AppContext";
 
 const Listing = () => {
@@ -77,7 +76,7 @@ const Listing = () => {
 
   // Filtered & Sorted Cars
   const filteredCars = useMemo(() => {
-    return dummyCars
+    return cars
       .filter(
         (car) =>
           matchesType(car) &&
@@ -86,7 +85,7 @@ const Listing = () => {
           matchesHeroDestination(car)
       )
       .sort(sortCars);
-  }, [selectedFilters, selectedSort, searchQuery, heroDestination]);
+  }, [cars, selectedFilters, selectedSort, searchQuery, heroDestination]);
 
   // Handle  Pagination Logic
   const getPaginatedCars = () => {

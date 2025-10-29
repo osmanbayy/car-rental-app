@@ -46,11 +46,29 @@ export const AppContextProvider = ({ children }) => {
     }
   };
 
+  const getCars = async () => {
+    try {
+      const { data } = await axios.get("/api/cars");
+      if (data.success) {
+        setCars(data.cars);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   useEffect(() => {
     if (user) {
       getUser();
     }
   }, [user]);
+
+  useEffect(() => {
+    getCars();
+  }, [])
+  
 
   const value = {
     cars,
@@ -69,7 +87,8 @@ export const AppContextProvider = ({ children }) => {
     toast,
     axios,
     getUser,
-    getToken
+    getToken,
+    getCars
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

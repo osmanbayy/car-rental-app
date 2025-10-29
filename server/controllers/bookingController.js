@@ -82,7 +82,7 @@ export const getUserBookings = async (request, response) => {
 // Get bookings of the logged-in agency
 export const getAgencyBookings = async (request, response) => {
     try {
-        const agency = await Agency.findOne({ owner: req.auth().userId });
+        const agency = await Agency.findOne({ owner: request.auth().userId });
         if (!agency) {
             return response.json({ success: false, message: "Agency not found." });
         }

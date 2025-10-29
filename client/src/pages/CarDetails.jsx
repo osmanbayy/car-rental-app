@@ -1,19 +1,18 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import CarImages from "../components/CarImages";
-import { assets, dummyCars } from "../assets/data";
+import { assets } from "../assets/data";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAppContext } from "../context/AppContext";
 
 const CarDetails = () => {
   const [car, setCar] = useState(null);
   const [pickUpDate, setPickUpDate] = useState(null);
   const [dropOffDate, setDropOffDate] = useState(null);
   const [isAvailable, setIsAvailable] = useState(false);
-  const currency = "$";
 
-  const navigate = useNavigate();
+  const { axios, getToken, currency, cars, navigate } = useAppContext();
   const { id } = useParams();
 
   // Animation variants
@@ -53,13 +52,13 @@ const CarDetails = () => {
   };
 
   useEffect(() => {
-    if (dummyCars && dummyCars.length > 0) {
-      const foundCar = dummyCars.find((car) => car._id === id);
+    if (cars && cars.length > 0) {
+      const foundCar = cars.find((car) => car._id === id);
       if (foundCar) {
         setCar(foundCar);
       }
     }
-  }, [dummyCars, id]);
+  }, [cars, id]);
 
   return (
     car && (
@@ -193,7 +192,7 @@ const CarDetails = () => {
                       <p>Agency Office</p>
                     </div>
                     <img
-                      src={car.agency.owner.image}
+                      src={car?.agency?.owner?.image}
                       alt="car owner"
                       className="size-10 rounded-full"
                     />

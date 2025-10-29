@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
-import { assets, cities, dummyCars } from "../assets/data";
+import { assets, cities } from "../assets/data";
 import Title from "./Title";
 import Item from "./Item";
 import { Link } from "react-router-dom";
@@ -9,14 +10,16 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { useAppContext } from "../context/AppContext";
 
 const FeaturedCars = () => {
   const [featuredCars, setFeaturedCars] = useState([]);
+  const { cars } = useAppContext();
 
   useEffect(() => {
-    const data = dummyCars.filter((car) => cities.includes(car.city));
+    const data = cars.filter((car) => cities.includes(car.city));
     setFeaturedCars(data);
-  }, [dummyCars]);
+  }, [cars]);
 
   return (
     <section className="max-padd-container py-16">
