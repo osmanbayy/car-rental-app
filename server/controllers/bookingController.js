@@ -2,6 +2,7 @@ import Booking from "../models/Booking.js";
 import Car from "../models/Car.js";
 import Agency from "../models/Agency.js";
 import stripe from "stripe";
+import transporter from "../config/nodemailer.js";
 
 // Internal Helper
 const checkAvailability = async ({ car, pickUpDate, dropOffDate }) => {
@@ -58,8 +59,29 @@ export const createBooking = async (request, response) => {
             dropOffDate,
             totalPrice,
         });
-
         await newBooking.save();
+
+        const mailOptions = {
+            from: process.env.SENDER_EMAIL, // The email have used for createing the brevo account
+            to: request.user.email,
+            subject: "Car Booking/Sale",
+            html: `
+              <h2>Your Booking Details</h2>
+              <p>Thank You for your booking! Below are your booking details:</p>
+              <ul>
+                <li><strong>Booking ID:</strong> ${newBooking._id}</li>
+                <li><strong>Agency Name:</strong> ${carData.agency.name}</li>
+                <li><strong>Location:</strong> ${carData.address}</li>
+                <li><strong>Date: </strong>${newBooking.pickUpDate.toDateString()}-${newBooking.dropOffDate.toDateString()}</li>
+                <li><strong>Booking Amount:</strong>${process.env.CURRENCY || "$"}${newBooking.totalPrice} for ${numberOfDays} days</li>
+              </ul>
+              <p>We are excited to welcome you soon.</p>
+              <p>Need to change something? Contact Us.</p>
+            `
+        };
+
+        await transporter.sendMail(mailOptions);
+
         response.json({ success: true, message: "Booking created successfully." });
     } catch (error) {
         response.json({ success: false, message: error.message });
