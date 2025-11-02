@@ -122,7 +122,33 @@ export const getAgencyBookings = async (request, response) => {
 // Stripe Payment Intent
 export const bookingPaymentStripe = async (request, response) => {
     try {
-        
+        const { bookingId } = request.body;
+        const booking = await Booking.findById(bookingId);
+        const carData = await Car.findById(booking.car).populate("agency");
+        const totalPrice = booking.totalPrice;
+        const { origin } = request.headers;
+
+        const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY);
+        const line_items = [
+            {
+                price_data: {
+                    currency: "usd",
+                    product_data: { name: carData.agency.name },
+                    unit_amount: totalPrice * 100,
+                },
+                quantity: 1,
+            }
+        ];
+
+        const session = await stripeInstance.checkout.sessions.create({
+            line_items,
+            mode: "payment",
+            success_url: `${origin}/processing/my-bookings`,
+            cancel_url: `${origin}/my-bookings`,
+            metadata: { bookingId }
+        });
+
+        response.json({ success: true, url: session.url })
     } catch (error) {
         response.json({ success: false, message: error.message });
         console.log(error.message);
