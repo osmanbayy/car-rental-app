@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
-import CarListSkeleton from "../../components/Skeletons/CarListSkeleton";
+import CarListSkeleton from "../../components/skeletons/CarListSkeleton";
 
 const ListCar = () => {
   const { axios, currency, getToken, user } = useAppContext();
