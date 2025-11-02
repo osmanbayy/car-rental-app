@@ -9,12 +9,16 @@ import agencyRouter from "./routes/agencyRoutes.js";
 import connectToCloudinary from "./config/cloudinary.js";
 import carRouter from "./routes/carRoutes.js";
 import bookingRouter from "./routes/bookingRoutes.js";
+import { stripeWebhooks } from "./controllers/stripeWebhooks.js";
 
 await connectToDatabase();  // Establish Connection to the Database
 await connectToCloudinary(); // Setup Cloudinary for image storage
 
 const app = express();      // Initialize Express
 app.use(cors())             // Enables Cross-Origin Resource sharing
+
+// API to listen stripe Webhooks
+app.post("/api/stripe", express.raw({ type: "application/json" }), stripeWebhooks);
 
 // Middleware Setup
 app.use(express.json());    // Enables JSON request body parsing
